@@ -1,0 +1,38 @@
+name: Slack Notification
+
+on:
+  push:
+    branches:
+      - main
+env:
+ USERNAME: "ci-bot"
+ EMAIL: "sharan.vayakkady@gmail.com"
+ ORIGIN_BRANCH: main
+ MERGE_BRANCH: staging
+ 
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    # Permissions for interacting with Github OIDC token
+    permissions:
+     id-token: write
+     contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Compare Master and Staging
+        id: branch-compare
+        run: |
+          chmod +x merge_conflict_check.sh
+          ./merge_conflict_check.sh
+
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "text": "Comparison result of ${{ env.ORIGIN_BRANCH }} branch and ${{ env.MERGE_BRANCH }} branch is: ${{ steps.branch-compare.outputs.COMPARE_RESULT }}"
+          }' $SLACK_WEBHOOK_URL
