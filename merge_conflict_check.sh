@@ -1,14 +1,10 @@
 #!/bin/bash
 set -e
+git clone https://github.com/sharan-vayakkady/june-09.git
+cd june-09
 git config user.name $USERNAME
 git config user.email $EMAIL
-git config pull.rebase false
-git fetch --all
-git branch
-git checkout $ORIGIN_BRANCH 
-git pull origin $ORIGIN_BRANCH
-git checkout -b $MERGE_BRANCH origin/$MERGE_BRANCH
-git pull origin $MERGE_BRANCH
+git checkout $MERGE_BRANCH 
 git branch
 git merge --no-commit --no-ff $ORIGIN_BRANCH  | tee automerge.out
 git branch
