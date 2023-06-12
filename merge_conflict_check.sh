@@ -4,7 +4,7 @@ git clone https://github.com/sharan-vayakkady/june-09.git
 cd june-09
 git config user.name $USERNAME
 git config user.email $EMAIL
-git checkout -b $MERGE_BRANCH 
+git checkout $MERGE_BRANCH 
 git branch
 git merge --no-commit --no-ff $ORIGIN_BRANCH  | tee automerge.out
 git branch
