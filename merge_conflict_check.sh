@@ -5,12 +5,12 @@ git config user.email $EMAIL
 git config pull.rebase false
 git fetch --all
 git branch
+git stash
 git checkout $ORIGIN_BRANCH 
 git pull origin $ORIGIN_BRANCH
 git checkout -b $MERGE_BRANCH origin/$MERGE_BRANCH
 git pull origin $MERGE_BRANCH --allow-unrelated-histories
 git branch
-git commit -am "Temporary commit"
 git merge --no-commit --no-ff $ORIGIN_BRANCH  | tee automerge.out
 git branch
 if grep "Automatic merge failed" automerge.out; then
